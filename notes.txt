@@ -1,1 +1,21 @@
 This is a git for my Metis project.
+
+Recurrent Neural Network
+
+1. 2048 Puzzle
+2. Wordle (I've done an explicit version: would be interesting to compare NN vs Explicit 1 Depth)
+3. Snake with different variants
+
+Text
+
+0. Find the holding (examine cases to find holding)
+1. Predict citations (examine patent specification text / publication year / classification code to predict number of citations)
+2. Predict president given speech text (maybe not enough examples)
+
+Image
+
+0. War in Ukraine, identify tank by picture
+1. Herbarium (kaggle competition)
+2. ???
+
+
