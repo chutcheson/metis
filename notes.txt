@@ -8,14 +8,11 @@ Recurrent Neural Network
 
 Text
 
-0. Find the holding (examine cases to find holding)
-1. Predict citations (examine patent specification text / publication year / classification code to predict number of citations)
-2. Predict president given speech text (maybe not enough examples)
+0. Summarize cases
+1. Classify paragraphs in terms and conditions 
 
 Image
 
-0. War in Ukraine, identify tank by picture
-1. Herbarium (kaggle competition)
-2. ???
+0. Potshards
 
 
