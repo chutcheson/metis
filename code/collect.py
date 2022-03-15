@@ -1,21 +1,51 @@
 from xml.etree.ElementTree import parse
-from os import mkdir
-from config import MANIFEST
+from pathlib import Path
+from config import MANIFEST, DATA, IMAGES
+from requests import get
 
-# http://www.beazley.ox.ac.uk/Vases/SPIFF/Images200/GER37/CVA.GER37.1830.2/cc001001.jpe
-
+# create XML tree of vases
 tree = parse(MANIFEST)
 
-= []
+# initialize image count
+imageCount = 0
 
-for vase in tree.getroot()[:2]:
+# iterate over vases
+for vase in tree.getroot():
+
+    # create path at which to store vase images for particular vase
+    vasePathName = IMAGES + vase.attrib['id'].lstrip("{").rstrip("}")
+
+    # create path object for vase
+    vasePath = Path(vasePathName)
+
+    # make directory for vase images of particular vase
+    vasePath.mkdir(exist_ok=True)    
     
+    # iterate over vase attributes
     for attribute in vase:
-        if attribute.tag == "URI":
-            print(attribute.tag, attribute.text)
-        if attribute.tag == "Image-Record":
-            for img in attribute:
-                if img.tag == "Filename":
-                    imageURLS.append((img.tag, img.text))
 
-print(imageURLS[:10])
+        # check for image records
+        if attribute.tag == "Image-Record":
+            
+            # iterate over image record attributes
+            for attr in attribute:
+                
+                # if the attribute is the image file name
+                if attr.tag == "Filename":
+
+                    # get the image
+                    image = get(f"http://www.beazley.ox.ac.uk/Vases/SPIFF/{img.text}/cc001001.jpe")
+
+                    # open file to store the image
+                    with open(vasePathName + "/" + str(imageCount) + ".jpe", "wb") as f:
+                        
+                        # write image to file
+                        f.write(image.content)
+
+                    # increment image counter
+                    imageCount += 1
+
+    # print out tracker for each 10th image
+    if imageCount % 10 == 0:
+
+        print(imageCount)
