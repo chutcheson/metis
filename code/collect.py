@@ -34,7 +34,7 @@ for vase in tree.getroot():
                 if attr.tag == "Filename":
 
                     # get the image
-                    image = get(f"http://www.beazley.ox.ac.uk/Vases/SPIFF/{img.text}/cc001001.jpe")
+                    image = get(f"http://www.beazley.ox.ac.uk/Vases/SPIFF/{attr.text}/cc001001.jpe")
 
                     # open file to store the image
                     with open(vasePathName + "/" + str(imageCount) + ".jpe", "wb") as f:
@@ -45,7 +45,4 @@ for vase in tree.getroot():
                     # increment image counter
                     imageCount += 1
 
-    # print out tracker for each 10th image
-    if imageCount % 10 == 0:
-
-        print(imageCount)
+print(imageCount)
