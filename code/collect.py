@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import parse
 from pathlib import Path
-from config import MANIFEST, DATA, IMAGES
+from config import MANIFEST, DATA, IMAGES, COLLECT_LOGS
 from requests import get
 
 # create XML tree of vases
@@ -9,8 +9,23 @@ tree = parse(MANIFEST)
 # initialize image count
 imageCount = 0
 
+# start
+start = False
+
 # iterate over vases
 for vase in tree.getroot():
+
+    if not vase.attrib:
+
+        continue
+
+    if vase.attrib['id'].lstrip("{").rstrip("}") == "1A472A81-1708-446C-9DAE-C98608793032":
+
+            start = True
+
+    if not start:
+
+        continue
 
     # create path at which to store vase images for particular vase
     vasePathName = IMAGES + vase.attrib['id'].lstrip("{").rstrip("}")
@@ -29,20 +44,34 @@ for vase in tree.getroot():
             
             # iterate over image record attributes
             for attr in attribute:
-                
-                # if the attribute is the image file name
-                if attr.tag == "Filename":
 
-                    # get the image
-                    image = get(f"http://www.beazley.ox.ac.uk/Vases/SPIFF/{attr.text}/cc001001.jpe")
-
-                    # open file to store the image
-                    with open(vasePathName + "/" + str(imageCount) + ".jpe", "wb") as f:
+                try:
                         
-                        # write image to file
-                        f.write(image.content)
+                    # if the attribute is the image file name
+                    if attr.tag == "Filename":
 
-                    # increment image counter
-                    imageCount += 1
+                        print(f"http://www.beazley.ox.ac.uk/Vases/SPIFF/{attr.text}cc001001.jpe")
+
+                        # get the image
+                        image = get(f"http://www.beazley.ox.ac.uk/Vases/SPIFF/{attr.text}cc001001.jpe",timeout=8)
+
+                        print("succeded")
+
+                        # open file to store the image
+                        with open(vasePathName + "/" + str(imageCount) + ".jpe", "wb") as f:
+                            
+                            # write image to file
+                            f.write(image.content)
+
+                        # increment image counter
+                        imageCount += 1
+
+                except Exception as exception:
+
+                    with open(COLLECT_LOGS, "a") as f:
+
+                        f.write(str(exception) + "\n")
+
+
 
 print(imageCount)
