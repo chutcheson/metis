@@ -15,4 +15,8 @@ Image
 
 0. Potshards
 
+To access the full screen image put
+http://www.beazley.ox.ac.uk/Vases/SPIFF/
+in front of the Filename in the XML data and cc001001.jpe after the filename
+e.g. as per the highlighted example above: http://www.beazley.ox.ac.uk/Vases/SPIFF/Images200/GER37/CVA.GER37.1830.2/cc001001.jpe
 
