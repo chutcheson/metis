@@ -38,4 +38,4 @@ I don't know whether other tools will be required.
 
 **What would a [minimum viable product (MVP)](./mvp.md) look like for this project?**
 
-The minimum viable product would be a machine learning model that can predict some feature of ancient greek pots, using pictures of the pods and / or pictures of the shards of the pots with some level of accuracy.
+The minimum viable product would be a machine learning model that can predict some feature of ancient greek pots, using pictures of the pods and / or pictures of the shards of the pots with some degree of accuracy.
