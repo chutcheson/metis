@@ -12,8 +12,6 @@ for folder in folders:
     # get the images in folders as path objects
     folderImages = [image for image in folder.glob('**/*')]
 
-    print(folderImages)
-
     if len(folderImages) == 0:
 
         # delete folder

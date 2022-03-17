@@ -34,10 +34,10 @@ seenInPriorFolder = {}
 seenMoreThanOnce = set()
 
 # iterate over folders 
-for index, folder in enumerate(folders):
+for folder in folders:
 
     # get the images in folders as path objects
-    folderImages = [image for image in folder.glob('*/*')]
+    folderImages = [image for image in folder.glob('**/*')]
 
     # get the hash for each images
     hashes = [md5file(str(image)) for image in folderImages]

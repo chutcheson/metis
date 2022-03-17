@@ -27,8 +27,6 @@ for vase in tree.getroot():
 
         continue
 
-    print(vase.attrib['id'])
-
     # create path at which to store vase images for particular vase
     vasePathName = IMAGES + vase.attrib['id'].lstrip("{").rstrip("}")
 
@@ -46,18 +44,12 @@ for vase in tree.getroot():
             
             # iterate over image record attributes
             for attr in attribute:
-
-                #try:
                         
                 # if the attribute is the image file name
                 if attr.tag == "Filename":
 
-                    print(f"starting: https://www.beazley.ox.ac.uk/Vases/SPIFF/{attr.text}cc001001.jpe")
-
                     # get the image
                     image = get(f"https://www.beazley.ox.ac.uk/Vases/SPIFF/{attr.text}cc001001.jpe")
-
-                    print(f"https://www.beazley.ox.ac.uk/Vases/SPIFF/{attr.text}cc001001.jpe : downloaded")
 
                     # open file to store the image
                     with open(vasePathName + "/" + str(imageCount) + ".jpe", "wb") as f:
@@ -67,13 +59,3 @@ for vase in tree.getroot():
 
                     # increment image counter
                     imageCount += 1
-
-                #except Exception as exception:
-
-                    #with open(COLLECT_LOGS, "a") as f:
-
-                        #f.write(str(exception) + "\n")
-
-
-
-print(imageCount)
