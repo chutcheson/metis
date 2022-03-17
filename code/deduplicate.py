@@ -25,7 +25,7 @@ def md5file(fileName):
     return fileHash.hexdigest()
 
 # get list of folders in IMAGES
-folders = [path for path in Path(IMAGES).glob('**/*')]
+folders = [path for path in Path(IMAGES).iterdir()]
 
 # create a dictionary to store seen md5 sums accross vases 
 seenInPriorFolder = {}
@@ -37,7 +37,7 @@ seenMoreThanOnce = set()
 for index, folder in enumerate(folders):
 
     # get the images in folders as path objects
-    folderImages = [image for image in folder.glob('**/*')]
+    folderImages = [image for image in folder.glob('*/*')]
 
     # get the hash for each images
     hashes = [md5file(str(image)) for image in folderImages]
