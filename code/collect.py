@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import parse
 from pathlib import Path
-from config import MANIFEST, DATA, IMAGES, COLLECT_LOGS
+from config import MANIFEST, DATA, IMAGES
 from requests import get
 
 # This file scrapes the Beazley Archive for vase images
