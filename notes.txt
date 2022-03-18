@@ -1,22 +1,9 @@
-This is a git for my Metis project.
+1. Resize images
+2. Load images into Keras
 
-Recurrent Neural Network
+MobileNetv2
 
-1. 2048 Puzzle
-2. Wordle (I've done an explicit version: would be interesting to compare NN vs Explicit 1 Depth)
-3. Snake with different variants
-
-Text
-
-0. Summarize cases
-1. Classify paragraphs in terms and conditions 
-
-Image
-
-0. Potshards
-
-To access the full screen image put
-http://www.beazley.ox.ac.uk/Vases/SPIFF/
-in front of the Filename in the XML data and cc001001.jpe after the filename
-e.g. as per the highlighted example above: http://www.beazley.ox.ac.uk/Vases/SPIFF/Images200/GER37/CVA.GER37.1830.2/cc001001.jpe
+#architecture
+#compile
+#fit
 
