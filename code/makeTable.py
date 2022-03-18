@@ -1,7 +1,9 @@
 from xml.etree.ElementTree import parse
 from pathlib import Path
-from config import MANIFEST, DATA, IMAGES, COLLECT_LOGS
+from config import MANIFEST, DATA, IMAGES
 from collections import defaultdict
+from PIL import Image
+from numpy import asarray, array_equal
 from csv import writer
 
 # this file uses the manifest and image files
@@ -31,9 +33,6 @@ tree = parse(MANIFEST)
 # iterate over vases
 for vase in tree.getroot():
 
-    # initialize fabric field 
-    fabric = None
-    
     # initialize technique field
     technique = None
     
@@ -58,13 +57,8 @@ for vase in tree.getroot():
     # iterate over vase attributes
     for child in vase:
 
-        # check for fabric
-        if child.tag == "Fabric":
-
-            fabric = child.text
-
         # check for technique
-        elif child.tag == "Technique":
+        if child.tag == "Technique":
 
             technique = child.text
 
@@ -78,13 +72,46 @@ for vase in tree.getroot():
             pass
 
     # if all fields were present 
-    if fabric and technique and provenance:
+    if technique and provenance:
 
         # iterate over vase images
         for image in vases[vaseID]:
 
+            # get image as numpy array
+            imageArray = asarray(Image.open(image))
+
+            # set image height
+            height = imageArray.shape[0]
+            
+            # set image width
+            width = imageArray.shape[1]
+
+            # check if image has channels
+            if len(imageArray.shape) == 3:
+
+                # get image channels
+                channels = imageArray.shape[2]
+
+                if array_equal(imageArray[:,:,0], imageArray[:,:,1]) and array_equal(imageArray[:,:,0], imageArray[:,:,2]):
+
+                    # if all channels are equal then image is grayscale
+                    color = "GRAYSCALE"
+
+                else:
+
+                    # otherwise image is color
+                    color = "COLOR"
+
+            else:
+
+                # if no channels
+                channels = 0
+                
+                # if no channels then image is grayscale
+                color = "GRAYSCALE"
+
             # add a row to vaseFileTable with vase info
-            vaseFileTable.append([vaseID, image, fabric, technique, provenance.split(",")[0]])
+            vaseFileTable.append([vaseID, image, technique, provenance.split(",")[0].split(" ")[0], height, width, channels, color])
 
 # open a file to save vaseFileTable
 with open(DATA + "imageInfo.csv", "w") as f:
