@@ -4,6 +4,9 @@ from config import MANIFEST, DATA, IMAGES, COLLECT_LOGS
 from collections import defaultdict
 from csv import writer
 
+# this file uses the manifest and image files
+# to create a csv with depicted vase fabric, technique and provenance for vase images
+
 # create dict to store IDs of vases with images and list of file paths
 vases = defaultdict(list)
 
