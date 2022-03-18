@@ -3,6 +3,8 @@ from pathlib import Path
 from config import MANIFEST, DATA, IMAGES, COLLECT_LOGS
 from requests import get
 
+# This file scrapes the Beazley Archive for vase images
+
 # create XML tree of vases
 tree = parse(MANIFEST)
 
