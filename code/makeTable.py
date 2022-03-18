@@ -4,7 +4,7 @@ from config import MANIFEST, DATA, IMAGES, COLLECT_LOGS
 from collections import defaultdict
 from csv import writer
 
-# create set to store IDs of vases with images
+# create dict to store IDs of vases with images and list of file paths
 vases = defaultdict(list)
 
 # create path object for images folder
@@ -13,12 +13,13 @@ imagesFolder = Path(IMAGES)
 # iterate over the folder representing each vase
 for path in imagesFolder.iterdir():
 
+    # get image files
     for f in path.glob("**/*"):
 
+        # use identifier as key and add file path
         vases[str(path).split("/")[-1]].append(str(f))
 
 # create table for vase images
-
 vaseFileTable = []
 
 # create XML tree of vases
