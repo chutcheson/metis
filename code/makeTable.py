@@ -25,35 +25,46 @@ vaseFileTable = []
 tree = parse(MANIFEST)
 
 # iterate over vases
-for index, vase in enumerate(tree.getroot()):
+for vase in tree.getroot():
 
+    # initialize fabric field 
     fabric = None
+    
+    # initialize technique field
     technique = None
+    
+    # initialize provenance field
     provenance = None
 
+    # check for vase id
     if not vase.attrib:
 
-        # continue if vase has no id
+        # continue if no id
         continue
 
-    # reformat vase id
+    # remove brackets around vase id
     vaseID = vase.attrib['id'].lstrip("{").rstrip("}")
 
+    # check to see that there are images for vase
     if vaseID not in vases:
 
-        # continue if vase is not in the set of vases with images
+        # continue if no images
         continue
 
+    # iterate over vase attributes
     for child in vase:
 
+        # check for fabric
         if child.tag == "Fabric":
 
             fabric = child.text
 
+        # check for technique
         elif child.tag == "Technique":
 
             technique = child.text
 
+        # check for provenance
         elif child.tag == "Provenance":
 
             provenance = child.text
@@ -62,18 +73,24 @@ for index, vase in enumerate(tree.getroot()):
 
             pass
 
+    # if all fields were present 
     if fabric and technique and provenance:
 
+        # iterate over vase images
         for image in vases[vaseID]:
 
+            # add a row to vaseFileTable with vase info
             vaseFileTable.append([vaseID, image, fabric, technique, provenance.split(",")[0]])
 
+# open a file to save vaseFileTable
 with open(DATA + "imageInfo.csv", "w") as f:
 
+    # create csv writer
     datawriter = writer(f)
 
+    # iterate over vaseFileTable rows
     for row in vaseFileTable:
 
+        # write rows to csv
         datawriter.writerow(row)
 
-print(vaseFileTable[:2])
