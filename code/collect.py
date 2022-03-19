@@ -8,24 +8,10 @@ from requests import get
 # create XML tree of vases
 tree = parse(MANIFEST)
 
-# initialize image count
-imageCount = 0
-
-# start
-start = False
-
 # iterate over vases
 for vase in tree.getroot():
 
     if not vase.attrib:
-
-        continue
-
-    if vase.attrib['id'].lstrip("{").rstrip("}") == "09986FF0-EA7C-40B6-8917-D30ADB8603E6":
-
-            start = True
-
-    if not start:
 
         continue
 
@@ -58,6 +44,3 @@ for vase in tree.getroot():
                         
                         # write image to file
                         f.write(image.content)
-
-                    # increment image counter
-                    imageCount += 1
