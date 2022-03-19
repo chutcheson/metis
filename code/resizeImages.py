@@ -59,7 +59,7 @@ for key in vaseImages:
     for image in vaseImages[key]:
 
         # crop the image
-        im = centerCrop(image, 244, 244)
+        im = centerCrop(image, 224, 224)
 
         # save the image in the vase path
         im.save(DATA + "croppedImages/" + key + "/" + image.split("/")[-1])

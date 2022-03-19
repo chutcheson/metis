@@ -49,13 +49,13 @@ for vaseDir in croppedImagePath.iterdir():
 
             im = Image.open(image)
 
-            im.save(str(blackDirectory) + "/" + str(image).split("/")[-1])
+            im.save(str(blackDirectory) + "/" + str(image).split("/")[-1][:-3] + "jpg")
 
         elif str(vase) in redVases:
 
             im = Image.open(image)
 
-            im.save(str(redDirectory) + "/" + str(image).split("/")[-1])
+            im.save(str(redDirectory) + "/" + str(image).split("/")[-1][:-3] + "jpg")
 
         else:
 
