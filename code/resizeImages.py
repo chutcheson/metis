@@ -64,3 +64,5 @@ for key in vaseImages:
         # save the image in the vase path
         im.save(DATA + "croppedImages/" + key + "/" + image.split("/")[-1])
 
+        break
+
