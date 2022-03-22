@@ -40,6 +40,8 @@ Freed of this restriction, I recreated my RED-FIGURE, BLACK-FIGURE folder struct
 
 Everything else was kept the same.
 
+## Training (Part 2)
+
 I trained with a network consisting of a couple of layers of Conv2D with MaxPool, Dropout and l2 regularization.
 
 I achieved a validation accuracy of about 82% after experimentation with dropout, l2 regularization and neural net depth and width.
