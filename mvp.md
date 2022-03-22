@@ -10,6 +10,12 @@ I scraped about 120,000 images from the Beasley Ancient Pottery Database. Most o
 
 I downloaded the metadata about the vases in an XML format. I created a CSV that combines the vase image file paths with the XML metadata.
 
+Upon examining the downloaded images, I noticed that many were undownloadable (I had gotten their URLs from the XML metadata).
+
+I checked them by hand to make sure that they were actually undownloadable.
+
+I then wrote a script to remove any images, which had been undownloadable and to clean up any empty vase directories from the directory where I stored scraped images.
+
 ## Preparation (Part 1)
 
 Most of the images are of a shape (X, Y, 3) although there are some images of shape (X, Y, 1) and (X, Y, 2).
