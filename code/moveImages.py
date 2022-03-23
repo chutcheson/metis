@@ -4,6 +4,15 @@ from PIL import Image
 from channelHelper import reduceChannels
 from tableHelper import getRecords
 
+# create directories for Keras
+# kerasImages /
+#   training /
+#       RED_FIGURE /
+#       BLACK_FIGURE /
+#   validation /
+#       RED_FIGURE /
+#       BLACK_FIGURE /
+
 kerasImagesPath = Path(KERAS_IMAGES)
 kerasImagesPath.mkdir(exist_ok=True)
 
@@ -25,18 +34,25 @@ RFVImagesPath.mkdir(exist_ok=True)
 BFVImagesPath = validationImagesPath / "BLACK_FIGURE"
 BFVImagesPath.mkdir(exist_ok=True)
 
+# get image table records
 table = getRecords(IMAGE_TABLE_SPLIT)
 
+# iterate over image table records
 for imageRecord in table:
 
+    # get image file name
     imageName = imageRecord[3].split("/")[-1]
 
+    # open image file
     im = Image.open(imageRecord[3])
 
+    # check channel count
     if imageRecord[6] == 3:
 
+        # if channel count == 3 reduce to 0
         im = reduceChannels(im)
 
+    # check train or validation and place in correct folder
     if imageRecord[8] == "training":
 
         if imageRecord[1] == "RED-FIGURE":
