@@ -1,12 +1,33 @@
 from xml.etree.ElementTree import parse
 from csv import reader, writer
+from collections import defaultdict
+
+# takes vase metadata and vase imagepaths
+# makes records for a table using metadata and imagepaths
+
+def makeTableRecords(vaseMetadataDict, vaseImages):
+
+    # list to hold records
+    table = []
+
+    # iterate over vases with images
+    for vase in vaseImages:
+
+        # iterate over individual vases
+        for image in vaseImages[vase]:
+
+            # append images to metadata for vase
+            table.append(vaseMetadataDict[vase] + [image])
+
+    # return table records
+    return table
 
 # takes a path to XML document and uses it to make a table
 
-def xmlToRecords(manifest):
+def xmlToVaseDict(manifest):
 
     # create list to store records of vase images
-    vaseRecords = []
+    vaseDict = {}
 
     # create XML tree of vases
     tree = parse(manifest)
@@ -29,12 +50,6 @@ def xmlToRecords(manifest):
         # remove brackets around vase id
         vaseID = vase.attrib['id'].lstrip("{").rstrip("}")
 
-        # check to see that there are images for vase
-        if vaseID not in vases:
-
-            # continue if no images
-            continue
-
         # iterate over vase attributes
         for child in vase:
 
@@ -52,48 +67,18 @@ def xmlToRecords(manifest):
 
                 pass
 
-        # if all fields were present 
-        if technique and provenance:
+        # add a row to vaseFileTable with vase info
+        vaseDict[vaseID] = [vaseID, technique]
 
-            # iterate over vase images
-            for image in vases[vaseID]:
+        if provenance:
 
-                # get image as numpy array
-                imageArray = asarray(Image.open(image))
+            vaseDict[vaseID].append(provenance.split(",")[0].split(" ")[0])
 
-                # set image height
-                height = imageArray.shape[0]
-                
-                # set image width
-                width = imageArray.shape[1]
+        else:
 
-                # check if image has channels
-                if len(imageArray.shape) == 3:
+            vaseDict[vaseID].append(None)
 
-                    # get image channels
-                    channels = imageArray.shape[2]
-
-                    if array_equal(imageArray[:,:,0], imageArray[:,:,1]) and array_equal(imageArray[:,:,0], imageArray[:,:,2]):
-
-                        # if all channels are equal then image is grayscale
-                        color = "GRAYSCALE"
-
-                    else:
-
-                        # otherwise image is color
-                        color = "COLOR"
-
-                else:
-
-                    # if no channels
-                    channels = 0
-                    
-                    # if no channels then image is grayscale
-                    color = "GRAYSCALE"
-
-                # add a row to vaseFileTable with vase info
-                vaseFileTable.append([vaseID, image, technique, provenance.split(",")[0].split(" ")[0], height, width, channels, color])
-
+    return vaseDict 
 
 # takes a path to a table
 # returns a list of lists where each list stores image metadata
@@ -104,7 +89,7 @@ def getRecords(tablePath):
     rows = []
 
     # open csv file
-    with open(tablepath, "r") as f:
+    with open(tablePath, "r") as f:
 
         # iterate over the rows
         for image in reader(f):

@@ -1,62 +1,58 @@
-from config import CROPPED_IMAGES, IMAGE_TABLE, DATA
+from config import IMAGE_TABLE_SPLIT, KERAS_IMAGES, TRAINING_IMAGES, VALIDATION_IMAGES
 from pathlib import Path
-from csv import reader
 from PIL import Image
+from channelHelper import reduceChannels
+from tableHelper import getRecords
 
-croppedImagePath = Path(CROPPED_IMAGES)
+kerasImagesPath = Path(KERAS_IMAGES)
+kerasImagesPath.mkdir(exist_ok=True)
 
-kerasDirectory = Path(DATA + "/kerasImages")
+trainingImagesPath = Path(TRAINING_IMAGES)
+trainingImagesPath.mkdir(exist_ok=True)
 
-kerasDirectory.mkdir(exist_ok=True)
+validationImagesPath = Path(VALIDATION_IMAGES)
+validationImagesPath.mkdir(exist_ok=True)
 
-blackDirectory = Path(str(kerasDirectory) + "/black")
+RFTImagesPath = trainingImagesPath / "RED_FIGURE"
+RFTImagesPath.mkdir(exist_ok=True)
 
-blackDirectory.mkdir(exist_ok=True)
+BFTImagesPath = trainingImagesPath / "BLACK_FIGURE"
+BFTImagesPath.mkdir(exist_ok=True)
 
-redDirectory = Path(str(kerasDirectory) + "/red")
+RFVImagesPath = validationImagesPath / "RED_FIGURE"
+RFVImagesPath.mkdir(exist_ok=True)
 
-redDirectory.mkdir(exist_ok=True)
+BFVImagesPath = validationImagesPath / "BLACK_FIGURE"
+BFVImagesPath.mkdir(exist_ok=True)
 
-blackVases = set()
+table = getRecords(IMAGE_TABLE_SPLIT)
 
-redVases = set()
+for imageRecord in table:
 
-with open(IMAGE_TABLE, "r") as f:
+    imageName = imageRecord[3].split("/")[-1]
 
-    table = reader(f)
+    im = Image.open(imageRecord[3])
 
-    for image in table:
+    if imageRecord[6] == 3:
 
-        if image[2] == "RED-FIGURE":
+        im = reduceChannels(im)
 
-            redVases.add(image[0])
+    if imageRecord[8] == "training":
 
-        elif image[2] == "BLACK-FIGURE":
+        if imageRecord[1] == "RED-FIGURE":
 
-            blackVases.add(image[0])
-
-        else:
-
-            pass
-
-for vaseDir in croppedImagePath.iterdir():
-
-    vase = str(vaseDir).split("/")[-1]
-
-    for image in vaseDir.glob("**/*"):
-
-        if str(vase) in blackVases:
-
-            im = Image.open(image)
-
-            im.save(str(blackDirectory) + "/" + str(image).split("/")[-1][:-3] + "jpg")
-
-        elif str(vase) in redVases:
-
-            im = Image.open(image)
-
-            im.save(str(redDirectory) + "/" + str(image).split("/")[-1][:-3] + "jpg")
+            im.save(str(RFTImagesPath / imageName))
 
         else:
 
-            pass
+            im.save(str(BFTImagesPath / imageName))
+
+    else:
+
+        if imageRecord[1] == "RED-FIGURE":
+
+            im.save(str(RFVImagesPath / imageName))
+
+        else:
+
+            im.save(str(BFVImagesPath / imageName))

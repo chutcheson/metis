@@ -10,7 +10,7 @@ def filterSize(records, imageSize):
     for image in records:
 
         # check to see if image meets minimum size
-        if int(image[4]) >= imageSize or int(image[5]) >= imageSize:
+        if int(image[4]) >= imageSize and int(image[5]) >= imageSize:
 
             # append image to list
             filteredImages.append(image)
@@ -34,5 +34,5 @@ def filterColor(records, color):
             # keep record
             filteredImages.append(image)
 
+    # return a list of images
     return filteredImages
-
