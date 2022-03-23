@@ -4,6 +4,14 @@ from imageDirectoryHelper import getVaseImages, getImageMetadata
 from filterImageHelper import filterSize, filterColor
 from splitHelper import getVaseTypes, performSplit 
 
+# this file creates an image record table csv
+# it uses the manifest data, the actual images, their shape
+# it filters manifest images and metadata to just those that could be scraped
+# it adds shape information
+# it filters them to those of the correct size and color
+# it assigns them to training and validation
+# it records this information in the IMAGE_TABLE_SPLIT csv
+
 size = 224
 color = "GRAYSCALE"
 
@@ -65,4 +73,5 @@ for imageRecord in imageRecords:
 # overwrite imageRecords
 imageRecords = newImageRecords
 
+# write csv with imageRecords
 recordsToTable(imageRecords, IMAGE_TABLE_SPLIT)
