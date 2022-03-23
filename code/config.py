@@ -1,8 +1,20 @@
+# data directory
 DATA = "../data/"
+
+# original scraped images
 IMAGES = "../data/images/"
-CROPPED_IMAGES = "../data/croppedImages/"
-GRAYSCALE_IMAGES = "../data/grayscale/"
+
+# keras images path
 KERAS_IMAGES = "../data/kerasImages/"
-KERAS_GRAYSCALE_IMAGES = "../data/kerasGrayscaleImages"
-IMAGE_TABLE = "../data/imageInfo.csv"
+
+# validation path
+VALIDATION_IMAGES = f"{KERAS_IMAGES}/validation/"
+
+# training path
+TRAINING_IMAGES = f"{KERAS_IMAGES}/training/"
+
+# table of all images with case metadata and split
+IMAGE_TABLE_SPLIT = "../data/imageInfoSplit.csv"
+
+# original XML data provided by BAPD
 MANIFEST = "../data/exportEDAD7358427A4809A106511DDDFECF08.xml"
