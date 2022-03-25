@@ -3,6 +3,8 @@ from pathlib import Path
 from PIL import Image
 from channelHelper import reduceChannels
 from tableHelper import getRecords
+from numpy import asarray
+from tensorflow.keras.preprocessing.image import smart_resize
 
 # create directories for Keras
 # kerasImages /
@@ -41,16 +43,23 @@ table = getRecords(IMAGE_TABLE_SPLIT)
 for imageRecord in table:
 
     # get image file name
-    imageName = imageRecord[3].split("/")[-1]
+    imageName = imageRecord[3].split("/")[-1][:-3] + "jpg"
 
     # open image file
     im = Image.open(imageRecord[3])
 
     # check channel count
-    if imageRecord[6] == 3:
+    if imageRecord[6] == "3":
 
         # if channel count == 3 reduce to 0
         im = reduceChannels(im)
+
+    im = asarray(im)
+    im = im.reshape(im.shape + (1,))
+    im = smart_resize(im, (200,200))
+    im = im.reshape((200,200))
+    im = Image.fromarray(im)
+    im = im.convert("L")
 
     # check train or validation and place in correct folder
     if imageRecord[8] == "training":
