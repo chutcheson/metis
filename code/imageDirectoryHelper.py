@@ -25,7 +25,7 @@ def getVaseImages(directory):
 
     return vases
 
-def getImageChannelsAndColoration(imageFile):
+def getImageMetadata(imageFile):
 
     # get image as numpy array
     imageArray = asarray(Image.open(imageFile))
@@ -52,7 +52,7 @@ def getImageChannelsAndColoration(imageFile):
             # otherwise image is color
             color = "COLOR"
 
-        return (channels, color)
+        return [*imageArray.shape, color]
 
     else:
 
@@ -62,6 +62,6 @@ def getImageChannelsAndColoration(imageFile):
         # if no channels then image is grayscale
         color = "GRAYSCALE"
 
-        return (channels, color)
+        return [*imageArray.shape, channels, color]
 
 

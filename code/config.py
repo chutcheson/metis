@@ -4,14 +4,23 @@ DATA = "../data/"
 # original scraped images
 IMAGES = "../data/images/"
 
-# keras images path
+# grayscale keras images path
 KERAS_IMAGES = "../data/kerasImages/"
 
-# validation path
+# grayscale validation path
 VALIDATION_IMAGES = f"{KERAS_IMAGES}/validation/"
 
-# training path
+# grayscale training path
 TRAINING_IMAGES = f"{KERAS_IMAGES}/training/"
+
+# color keras images path
+COLOR_KERAS_IMAGES = "../data/kerasColorImages/"
+
+# grayscale validation path
+COLOR_VALIDATION_IMAGES = f"{COLOR_KERAS_IMAGES}/validation/"
+
+# grayscale training path
+COLOR_TRAINING_IMAGES = f"{COLOR_KERAS_IMAGES}/training/"
 
 # table of all images with case metadata and split
 IMAGE_TABLE_SPLIT = "../data/imageInfoSplit.csv"

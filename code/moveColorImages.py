@@ -1,9 +1,9 @@
-from config import IMAGE_TABLE_SPLIT, KERAS_IMAGES, TRAINING_IMAGES, VALIDATION_IMAGES
+from config import IMAGE_TABLE_SPLIT, COLOR_KERAS_IMAGES, COLOR_TRAINING_IMAGES, COLOR_VALIDATION_IMAGES
 from pathlib import Path
 from PIL import Image
 from channelHelper import reduceChannels
 from tableHelper import getRecords
-from numpy import asarray
+from numpy import asarray, stack, uint8
 from tensorflow.keras.preprocessing.image import smart_resize
 
 # create directories for Keras
@@ -15,13 +15,13 @@ from tensorflow.keras.preprocessing.image import smart_resize
 #       RED_FIGURE /
 #       BLACK_FIGURE /
 
-kerasImagesPath = Path(KERAS_IMAGES)
+kerasImagesPath = Path(COLOR_KERAS_IMAGES)
 kerasImagesPath.mkdir(exist_ok=True)
 
-trainingImagesPath = Path(TRAINING_IMAGES)
+trainingImagesPath = Path(COLOR_TRAINING_IMAGES)
 trainingImagesPath.mkdir(exist_ok=True)
 
-validationImagesPath = Path(VALIDATION_IMAGES)
+validationImagesPath = Path(COLOR_VALIDATION_IMAGES)
 validationImagesPath.mkdir(exist_ok=True)
 
 RFTImagesPath = trainingImagesPath / "RED_FIGURE"
@@ -55,11 +55,9 @@ for imageRecord in table:
         im = reduceChannels(im)
 
     im = asarray(im)
-    im = im.reshape(im.shape + (1,))
+    im = stack((im,)*3, axis=-1)
     im = smart_resize(im, (224,224))
-    im = im.reshape((224,224))
-    im = Image.fromarray(im)
-    im = im.convert("L")
+    im = Image.fromarray(im.astype(uint8))
 
     # check train or validation and place in correct folder
     if imageRecord[8] == "training":
